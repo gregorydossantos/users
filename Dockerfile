@@ -1,14 +1,17 @@
-FROM ubuntu:latest AS build
+FROM ubuntu:latest
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+RUN apt update
+RUN apt install openjdk-21-jdk -y
+RUN apt install maven -y
+
+WORKDIR /app
+
 COPY . .
 
-RUN apt-get install maven -y
 RUN mvn clean install
 
-FROM openjdk:17-jdk-slim
+COPY /target/api-users-1.jar users.jar
+
 EXPOSE 8081
-COPY --from=build /target/users-1.jar users.jar
 
 ENTRYPOINT ["java", "-jar", "users.jar"]
