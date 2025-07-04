@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 @ActiveProfiles("test")
 class UserServiceMaintenanceImplTest {
 
-    static final UUID id = UUID.randomUUID();
+    static final String id = UUID.randomUUID().toString();
 
     @Mock
     IUserUseCaseMaintenance userMaintenanceUseCase;

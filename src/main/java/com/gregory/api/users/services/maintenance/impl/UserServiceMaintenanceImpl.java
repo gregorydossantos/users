@@ -24,12 +24,12 @@ public class UserServiceMaintenanceImpl implements IUserServiceMaintenance {
     }
 
     @Override
-    public UserResponse updateUser(UUID id, UserRequest request) {
-        return userMaintenanceUseCase.updateUser(id, request);
+    public UserResponse updateUser(String userId, UserRequest request) {
+        return userMaintenanceUseCase.updateUser(userId, request);
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        userMaintenanceUseCase.deleteUser(id);
+    public void deleteUser(String userId) {
+        userMaintenanceUseCase.deleteUser(userId);
     }
 }

@@ -8,4 +8,6 @@ import java.util.List;
 public interface IUserUseCaseQuery {
 
     UsersResponse getUsers(int page, int size);
+
+    UsersResponse findByUserId(String userId);
 }

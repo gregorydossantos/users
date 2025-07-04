@@ -16,8 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 import static com.gregory.api.users.rest.path.Routes.PATH_USERS;
 
 @RestController
@@ -50,8 +48,8 @@ public class UserControllerMaintenanceImpl implements IUserControllerMaintenance
             @ApiResponse(responseCode = "500", description = "Internal error")
     })
     @Override
-    public ResponseEntity<UserResponse> updateUser(UUID id, UserRequest request) {
-        var response = userServiceMaintenance.updateUser(id, request);
+    public ResponseEntity<UserResponse> updateUser(String userId, UserRequest request) {
+        var response = userServiceMaintenance.updateUser(userId, request);
         return ResponseEntity.ok().body(response);
     }
 
@@ -63,8 +61,8 @@ public class UserControllerMaintenanceImpl implements IUserControllerMaintenance
             @ApiResponse(responseCode = "500", description = "Internal error")
     })
     @Override
-    public ResponseEntity<Void> deleteUser(UUID id) {
-        userServiceMaintenance.deleteUser(id);
+    public ResponseEntity<Void> deleteUser(String userId) {
+        userServiceMaintenance.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

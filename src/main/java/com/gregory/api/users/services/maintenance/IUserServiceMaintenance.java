@@ -9,7 +9,7 @@ public interface IUserServiceMaintenance {
 
     void createUser(UserRequest request);
 
-    UserResponse updateUser(UUID id, UserRequest request);
+    UserResponse updateUser(String userId, UserRequest request);
 
-    void deleteUser(UUID id);
+    void deleteUser(String userId);
 }

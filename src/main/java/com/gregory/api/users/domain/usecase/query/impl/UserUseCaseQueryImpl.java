@@ -4,6 +4,7 @@ import com.gregory.api.users.domain.mapper.IUserMapper;
 import com.gregory.api.users.domain.usecase.query.IUserUseCaseQuery;
 import com.gregory.api.users.infra.db.entities.Users;
 import com.gregory.api.users.infra.db.repositories.IUserRepository;
+import com.gregory.api.users.rest.dto.response.UserResponse;
 import com.gregory.api.users.rest.dto.response.UsersResponse;
 import com.gregory.api.users.rest.exceptionhandler.exception.UserNotFoundException;
 import com.gregory.api.users.services.encryption.IEncryptionService;
@@ -39,6 +40,24 @@ public class UserUseCaseQueryImpl implements IUserUseCaseQuery {
 
         log.info("Return all Users");
         var response = userMapper.toListUserResponse(users.getContent());
+        return UsersResponse.builder().data(response).build();
+    }
+
+    @Override
+    public UsersResponse findByUserId(String userId) {
+        log.info("Get user by id: {}", userId);
+        var user = userRepository.findByUserId(userId);
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException(USER_NOT_FOUND);
+        }
+
+        log.info("Decrypting user password");
+        decryptingAllPasswords(List.of(user.get()));
+
+        var response = userMapper.toListUserResponse(List.of(user.get()));
+
+        log.info("Return User: {}", response.getFirst());
         return UsersResponse.builder().data(response).build();
     }
 
