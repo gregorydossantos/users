@@ -6,10 +6,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
-public interface IUserRepository extends JpaRepository<Users, UUID>, PagingAndSortingRepository<Users, UUID> {
+public interface IUserRepository extends JpaRepository<Users, Long>, PagingAndSortingRepository<Users, Long> {
 
     Optional<Users> findByEmail(String email);
+
+    Optional<Users> findByUserId(String userId);
 }

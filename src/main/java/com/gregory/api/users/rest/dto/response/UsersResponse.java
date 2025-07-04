@@ -15,6 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class UsersResponse implements Serializable {
 
-    @JsonProperty("users")
+    @JsonProperty("data")
     List<UserResponse> data;
 }

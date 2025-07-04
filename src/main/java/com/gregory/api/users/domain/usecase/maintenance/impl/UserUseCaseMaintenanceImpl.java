@@ -2,6 +2,7 @@ package com.gregory.api.users.domain.usecase.maintenance.impl;
 
 import com.gregory.api.users.domain.mapper.IUserMapper;
 import com.gregory.api.users.domain.usecase.maintenance.IUserUseCaseMaintenance;
+import com.gregory.api.users.infra.db.entities.Users;
 import com.gregory.api.users.infra.db.repositories.IUserRepository;
 import com.gregory.api.users.rest.dto.request.UserRequest;
 import com.gregory.api.users.rest.dto.response.UserResponse;
@@ -42,15 +43,19 @@ public class UserUseCaseMaintenanceImpl implements IUserUseCaseMaintenance {
 
         log.info("Convert request in entity");
         var user = mapper.toEntity(request);
+
+        log.info("Creating user_id in the user");
+        setUserId(user);
+
         log.info("Persist entity at database: {}", user);
         userRepository.save(user);
     }
 
     @Override
-    public UserResponse updateUser(UUID id, UserRequest request) {
+    public UserResponse updateUser(String userId, UserRequest request) {
         log.info("====[UPDATE USER]====");
-        log.info("Get register by ID {} in database", id);
-        var oldUser = userRepository.findById(id);
+        log.info("Get register by user id {} in database", userId);
+        var oldUser = userRepository.findByUserId(userId);
 
         log.info("[UPDATE] ==== Validating if exists register on database");
         if (oldUser.isEmpty()) {
@@ -69,10 +74,10 @@ public class UserUseCaseMaintenanceImpl implements IUserUseCaseMaintenance {
     }
 
     @Override
-    public void deleteUser(UUID id) {
+    public void deleteUser(String userId) {
         log.info("====[DELETE USER]====");
-        log.info("Get user by ID {}", id);
-        var user = userRepository.findById(id);
+        log.info("Get user by ID {}", userId);
+        var user = userRepository.findByUserId(userId);
 
         log.info("[DELETE] ==== Validating if exists register on database");
         if (user.isEmpty()) {
@@ -90,5 +95,9 @@ public class UserUseCaseMaintenanceImpl implements IUserUseCaseMaintenance {
     private void encryptPassword(UserRequest request) {
         log.info("Encrypting user password");
         request.setPassword(encryptionService.encrypt(request.getPassword()));
+    }
+
+    private void setUserId(Users user) {
+        user.setUserId(UUID.randomUUID().toString());
     }
 }

@@ -1,5 +1,6 @@
 package com.gregory.api.users.rest.query.impl;
 
+import com.gregory.api.users.rest.dto.response.UserResponse;
 import com.gregory.api.users.rest.dto.response.UsersResponse;
 import com.gregory.api.users.rest.query.IUserControllerQuery;
 import com.gregory.api.users.services.query.IUserServiceQuery;
@@ -13,6 +14,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 import static com.gregory.api.users.rest.path.Routes.PATH_USERS;
 
@@ -32,9 +35,11 @@ public class UserControllerQueryImpl implements IUserControllerQuery {
             @ApiResponse(responseCode = "500", description = "Internal error")
     })
     @Override
-    public ResponseEntity<UsersResponse> getUsers(int page, int size) {
+    public ResponseEntity<UsersResponse> getUsers(String userId, int page, int size) {
+        if (Objects.nonNull(userId)) {
+            return ResponseEntity.ok().body(userService.findByUserId(userId));
+        }
         var response = userService.getUsers(page, size);
         return ResponseEntity.ok().body(response);
     }
-
 }

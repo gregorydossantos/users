@@ -1,6 +1,7 @@
 package com.gregory.api.users.services.query.impl;
 
 import com.gregory.api.users.domain.usecase.query.IUserUseCaseQuery;
+import com.gregory.api.users.rest.dto.response.UserResponse;
 import com.gregory.api.users.rest.dto.response.UsersResponse;
 import com.gregory.api.users.services.query.IUserServiceQuery;
 import lombok.AccessLevel;
@@ -18,5 +19,10 @@ public class UserServiceQueryImpl implements IUserServiceQuery {
     @Override
     public UsersResponse getUsers(int page, int size) {
         return userQueryUseCase.getUsers(page, size);
+    }
+
+    @Override
+    public UsersResponse findByUserId(String userId) {
+        return userQueryUseCase.findByUserId(userId);
     }
 }

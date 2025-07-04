@@ -14,8 +14,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.UUID;
-
 @Data
 @Entity
 @Builder
@@ -27,10 +25,13 @@ import java.util.UUID;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    @Column(name = "name", length = 10, nullable = false)
+    @Column(name = "user_id")
+    String userId;
+
+    @Column(name = "name", nullable = false)
     String name;
 
     @Column(name = "email", unique = true, nullable = false)
@@ -39,7 +40,6 @@ public class Users {
     @Column(name = "password", nullable = false)
     String password;
 
-    @Column(name = "exchange", length = 10, nullable = false)
+    @Column(name = "exchange")
     String exchange;
-
 }

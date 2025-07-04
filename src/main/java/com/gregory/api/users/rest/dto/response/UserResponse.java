@@ -18,7 +18,8 @@ import static com.fasterxml.jackson.annotation.JsonProperty.Access.WRITE_ONLY;
 public class UserResponse implements Serializable {
 
     @JsonProperty(access = WRITE_ONLY)
-    private UUID id;
+    private Long id;
+    private String userId;
     private String name;
     private String email;
     @JsonProperty(access = WRITE_ONLY)

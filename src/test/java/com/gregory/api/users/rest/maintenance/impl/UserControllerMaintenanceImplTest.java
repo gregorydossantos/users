@@ -21,6 +21,7 @@ import java.util.UUID;
 import static com.gregory.api.users.rest.path.Routes.PATH_USERS;
 import static io.restassured.RestAssured.given;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,7 +30,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerMaintenanceImplTest {
 
-    UUID id;
+    String id;
 
     @LocalServerPort
     int port;
@@ -41,7 +42,7 @@ class UserControllerMaintenanceImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         RestAssured.port = port;
-        id = UUID.randomUUID();
+        id = UUID.randomUUID().toString();
     }
 
     @Test
@@ -68,12 +69,12 @@ class UserControllerMaintenanceImplTest {
 
         given()
                 .contentType(ContentType.JSON)
-                .param("id", id)
+                .param("user_id", id)
                 .body(request)
                 .when().put(PATH_USERS)
                 .then().statusCode(HttpStatus.OK.value());
 
-        verify(serviceMaintenance).updateUser(any(UUID.class), any(UserRequest.class));
+        verify(serviceMaintenance).updateUser(anyString(), any(UserRequest.class));
     }
 
     @Test
@@ -83,7 +84,7 @@ class UserControllerMaintenanceImplTest {
 
         given()
                 .contentType(ContentType.JSON)
-                .param("id", id)
+                .param("user_id", id)
                 .when().delete(PATH_USERS)
                 .then().statusCode(HttpStatus.OK.value());
 
