@@ -30,25 +30,31 @@ import static org.mockito.Mockito.when;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerMaintenanceImplTest {
 
-    String id;
-
     @LocalServerPort
     int port;
 
     @MockitoBean
     IUserServiceMaintenance serviceMaintenance;
 
+    UserRequest request;
+    String id;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         RestAssured.port = port;
         id = UUID.randomUUID().toString();
+        request = UserRequest.builder()
+                .name("Test")
+                .email("test@test.com")
+                .password("test-123")
+                .exchange("person")
+                .build();
     }
 
     @Test
     @DisplayName("REST LAYER ::: Should be return a http status 201 - CREATED")
     void should_ReturnsHttp201_When_CreateUser() {
-        var request = Mockito.mock(UserRequest.class);
         doNothing().when(serviceMaintenance).createUser(any(UserRequest.class));
 
         given()
@@ -63,7 +69,6 @@ class UserControllerMaintenanceImplTest {
     @Test
     @DisplayName("REST LAYER ::: Should be return a http status 200 - SUCCESS")
     void should_ReturnsHttp200_When_UpdateUser() {
-        var request = Mockito.mock(UserRequest.class);
         var response = Mockito.mock(UserResponse.class);
         when(serviceMaintenance.updateUser(id, request)).thenReturn(response);
 

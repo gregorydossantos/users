@@ -89,7 +89,6 @@ class UserUseCaseMaintenanceImplTest {
     @DisplayName("USE CASE LAYER ::: Update a user")
     void updateUser() {
         when(userRepository.findByUserId(anyString())).thenReturn(Optional.ofNullable(userMock));
-        when(mapper.toUpdate(any(), any())).thenReturn(userMock);
         when(mapper.toResponse(any())).thenReturn(responseMock);
 
         var response = userMaintenanceUseCase.updateUser(UUID.randomUUID().toString(), requestMock);

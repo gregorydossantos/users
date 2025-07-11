@@ -21,7 +21,7 @@ public interface IUserControllerMaintenance {
     ResponseEntity<Void> createUser(@Valid @RequestBody UserRequest request);
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
-    ResponseEntity<UserResponse> updateUser(@RequestParam("user_id") String userId, @RequestBody @Valid UserRequest request);
+    ResponseEntity<UserResponse> updateUser(@RequestParam("user_id") String userId, @RequestBody UserRequest request);
 
     @DeleteMapping(consumes = APPLICATION_JSON_VALUE)
     ResponseEntity<Void> deleteUser(@RequestParam("user_id") String userId);
