@@ -11,6 +11,8 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLException;
+
 @ControllerAdvice
 public class UserExceptionHandler {
 
@@ -48,5 +50,11 @@ public class UserExceptionHandler {
     public ResponseEntity<ErrorResponse> handleAbsentParameter(final MissingServletRequestParameterException ex) {
         ErrorResponse errorResponse = new ErrorResponse(ex.getParameterName(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(SQLException.class)
+    public ResponseEntity<ErrorResponse> handlerSqlException(final SQLException ex) {
+        ErrorResponse errorResponse = new ErrorResponse("email", ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

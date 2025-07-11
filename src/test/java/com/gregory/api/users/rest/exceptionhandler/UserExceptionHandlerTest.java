@@ -18,6 +18,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 
+import java.sql.SQLException;
+
 import static com.gregory.api.users.domain.message.CommonsMessage.BAD_REQUEST;
 import static com.gregory.api.users.domain.message.CommonsMessage.USER_ALREADY_REGISTER;
 import static com.gregory.api.users.domain.message.CommonsMessage.USER_NOT_FOUND;
@@ -82,6 +84,14 @@ class UserExceptionHandlerTest {
     void should_ReturnsMissingServletRequestParameterException_When_AbsentParameterRequest() {
         var mock = Mockito.mock(MissingServletRequestParameterException.class);
         ResponseEntity<ErrorResponse> response = userExceptionHandler.handleAbsentParameter(mock);
+        assertNotNull(response);
+    }
+
+    @Test
+    @DisplayName("Should be return SQLException")
+    void should_ReturnsSQLException_When_UpdateUserWithEqualsEmailAlreadySaved() {
+        var mock = Mockito.mock(SQLException.class);
+        ResponseEntity<ErrorResponse> response = userExceptionHandler.handlerSqlException(mock);
         assertNotNull(response);
     }
 }
