@@ -15,6 +15,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import static com.gregory.api.users.domain.message.CommonsMessage.USER_ALREADY_REGISTER;
@@ -66,10 +67,7 @@ public class UserUseCaseMaintenanceImpl implements IUserUseCaseMaintenance {
         encryptPassword(request);
 
         log.info("Update old user");
-        var userUpdate = mapper.toUpdate(oldUser.get(), request);
-        log.info("Saving updated user: {}", userUpdate);
-        userRepository.save(userUpdate);
-
+        var userUpdate = toUpdate(oldUser.get(), request);
         return mapper.toResponse(userUpdate);
     }
 
@@ -99,5 +97,24 @@ public class UserUseCaseMaintenanceImpl implements IUserUseCaseMaintenance {
 
     private void setUserId(Users user) {
         user.setUserId(UUID.randomUUID().toString());
+    }
+
+    private Users toUpdate(Users user, UserRequest request) {
+        if (Objects.nonNull(request.getName())) {
+            user.setName(request.getName());
+        }
+        if (Objects.nonNull(request.getEmail())) {
+            user.setEmail(request.getEmail());
+        }
+        if (Objects.nonNull(request.getPassword())) {
+            user.setPassword(request.getPassword());
+        }
+        if (Objects.nonNull(request.getExchange())) {
+            user.setExchange(request.getExchange());
+        }
+
+        log.info("Saving updated user: {}", user);
+        userRepository.save(user);
+        return user;
     }
 }

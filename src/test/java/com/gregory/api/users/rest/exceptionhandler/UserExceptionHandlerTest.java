@@ -7,11 +7,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+
+import java.sql.SQLException;
 
 import static com.gregory.api.users.domain.message.CommonsMessage.BAD_REQUEST;
 import static com.gregory.api.users.domain.message.CommonsMessage.USER_ALREADY_REGISTER;
@@ -59,5 +66,32 @@ class UserExceptionHandlerTest {
 
         assertNotNull(response);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Should be return MethodArgumentNotValidException")
+    void should_ReturnsMethodArgumentNotValidException_When_requestMissingOut() {
+        var parameter = Mockito.mock(MethodParameter.class);
+        var bindingResult = Mockito.mock(BindingResult.class);
+        MethodArgumentNotValidException exception = new MethodArgumentNotValidException(parameter, bindingResult);
+        ResponseEntity<ErrorResponse> response = userExceptionHandler.handleValidationRequestBody(exception);
+        assertNotNull(response);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Should be return MissingServletRequestParameterException")
+    void should_ReturnsMissingServletRequestParameterException_When_AbsentParameterRequest() {
+        var mock = Mockito.mock(MissingServletRequestParameterException.class);
+        ResponseEntity<ErrorResponse> response = userExceptionHandler.handleAbsentParameter(mock);
+        assertNotNull(response);
+    }
+
+    @Test
+    @DisplayName("Should be return SQLException")
+    void should_ReturnsSQLException_When_UpdateUserWithEqualsEmailAlreadySaved() {
+        var mock = Mockito.mock(SQLException.class);
+        ResponseEntity<ErrorResponse> response = userExceptionHandler.handlerSqlException(mock);
+        assertNotNull(response);
     }
 }

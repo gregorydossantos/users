@@ -4,7 +4,6 @@ import com.gregory.api.users.infra.db.entities.Users;
 import com.gregory.api.users.rest.dto.request.UserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -41,13 +40,6 @@ class UserMapperTest {
     void should_Return_Response_List() {
         var userMock = mock(Users.class);
         var response = mapper.toListUserResponse(List.of(userMock));
-        assertNotNull(response);
-    }
-
-    @Test
-    @DisplayName("USE CASE LAYER ::: Mapping dto object to update entity")
-    void should_Return_Update_Entity() {
-        var response = mapper.toUpdate(mock(Users.class), mock(UserRequest.class));
         assertNotNull(response);
     }
 }
