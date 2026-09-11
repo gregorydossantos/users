@@ -1,10 +1,9 @@
 package com.gregory.api.users.domain.usecase.maintenance.impl;
 
 import com.gregory.api.users.domain.mapper.IUserMapper;
-import com.gregory.api.users.infra.db.entities.Users;
+import com.gregory.api.users.infra.db.entities.UserEntity;
 import com.gregory.api.users.infra.db.repositories.IUserRepository;
 import com.gregory.api.users.rest.dto.request.UserRequest;
-import com.gregory.api.users.rest.dto.response.UserResponse;
 import com.gregory.api.users.rest.exceptionhandler.exception.UserDataIntegrityException;
 import com.gregory.api.users.rest.exceptionhandler.exception.UserNotFoundException;
 import com.gregory.api.users.services.encryption.IEncryptionService;
@@ -45,7 +44,7 @@ class UserUseCaseMaintenanceImplTest {
 
     UserRequest requestMock;
     UserResponse responseMock;
-    Users userMock;
+    UserEntity userMock;
 
     @BeforeEach
     void setUp() {
@@ -65,7 +64,7 @@ class UserUseCaseMaintenanceImplTest {
                 .exchange("Mail")
                 .build();
 
-        userMock = Users.builder()
+        userMock = UserEntity.builder()
                 .id(1L)
                 .userId(UUID.randomUUID().toString())
                 .name("Test")
@@ -82,7 +81,7 @@ class UserUseCaseMaintenanceImplTest {
         when(mapper.toEntity(requestMock)).thenReturn(userMock);
 
         userMaintenanceUseCase.createUser(requestMock);
-        verify(userRepository).save(any(Users.class));
+        verify(userRepository).save(any(UserEntity.class));
     }
 
     @Test
@@ -101,7 +100,7 @@ class UserUseCaseMaintenanceImplTest {
         when(userRepository.findByUserId(anyString())).thenReturn(Optional.ofNullable(userMock));
 
         userMaintenanceUseCase.deleteUser(UUID.randomUUID().toString());
-        verify(userRepository).delete(any(Users.class));
+        verify(userRepository).delete(any(UserEntity.class));
     }
 
     @Test

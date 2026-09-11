@@ -1,6 +1,6 @@
 package com.gregory.api.users.domain.mapper;
 
-import com.gregory.api.users.infra.db.entities.Users;
+import com.gregory.api.users.infra.db.entities.UserEntity;
 import com.gregory.api.users.rest.dto.request.UserRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,14 +31,14 @@ class UserMapperTest {
     @Test
     @DisplayName("USE CASE LAYER ::: Mapping entity to response object")
     void should_Return_Response() {
-        var response = mapper.toResponse(mock(Users.class));
+        var response = mapper.toResponse(mock(UserEntity.class));
         assertNotNull(response);
     }
 
     @Test
     @DisplayName("USE CASE LAYER ::: Mapping entity to response list")
     void should_Return_Response_List() {
-        var userMock = mock(Users.class);
+        var userMock = mock(UserEntity.class);
         var response = mapper.toListUserResponse(List.of(userMock));
         assertNotNull(response);
     }

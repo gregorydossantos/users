@@ -1,8 +1,7 @@
 package com.gregory.api.users.services.query.impl;
 
-import com.gregory.api.users.domain.usecase.query.IUserUseCaseQuery;
-import com.gregory.api.users.rest.dto.response.UserResponse;
-import com.gregory.api.users.rest.dto.response.UsersResponse;
+import com.gregory.api.users.domain.usecase.query.IUserUseCase;
+import com.gregory.api.users.services.impl.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,10 +21,10 @@ import static org.mockito.Mockito.when;
 class UserServiceQueryImplTest {
 
     @Mock
-    IUserUseCaseQuery userQueryUseCase;
+    IUserUseCase userQueryUseCase;
 
     @InjectMocks
-    UserServiceQueryImpl userServiceQuery;
+    UserServiceImpl userServiceQuery;
 
     @Test
     @DisplayName("SERVICE LAYER ::: Get a list of users successfully")

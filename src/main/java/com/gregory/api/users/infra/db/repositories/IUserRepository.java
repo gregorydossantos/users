@@ -1,6 +1,6 @@
 package com.gregory.api.users.infra.db.repositories;
 
-import com.gregory.api.users.infra.db.entities.Users;
+import com.gregory.api.users.infra.db.entities.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IUserRepository extends JpaRepository<Users, Long>, PagingAndSortingRepository<Users, Long> {
+public interface IUserRepository extends JpaRepository<UserEntity, Long>, PagingAndSortingRepository<UserEntity, Long> {
 
-    Optional<Users> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
 
-    Optional<Users> findByUserId(String userId);
+    Optional<UserEntity> findByUserId(String userId);
 }

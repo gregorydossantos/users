@@ -9,23 +9,32 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static com.gregory.api.users.rest.path.Routes.PATH_USERS;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private static final String PATH_USERS = "/api/v1/users/**";
+    private static final String PATH_USERS_ID = PATH_USERS + "/**";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+//                When running at local uncomment this to use H2 web console
+//                .headers(headers -> headers.frameOptions(HeadersConfigurer
+//                        .FrameOptionsConfig::sameOrigin))
+//                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
                 .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(session -> session.sessionCreationPolicy(
+                        SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.GET, PATH_USERS).permitAll()
                         .requestMatchers(HttpMethod.POST, PATH_USERS).permitAll()
-                        .requestMatchers(HttpMethod.PUT, PATH_USERS).permitAll()
-                        .requestMatchers(HttpMethod.DELETE, PATH_USERS).permitAll()
+                        .requestMatchers(HttpMethod.PATCH, PATH_USERS_ID).permitAll()
+                        .requestMatchers(HttpMethod.POST, PATH_USERS_ID).permitAll()
+                        .requestMatchers(HttpMethod.DELETE, PATH_USERS_ID).permitAll()
                         .anyRequest().authenticated())
                 .build();
     }

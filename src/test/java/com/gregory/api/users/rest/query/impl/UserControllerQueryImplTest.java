@@ -1,8 +1,6 @@
 package com.gregory.api.users.rest.query.impl;
 
-import com.gregory.api.users.rest.dto.response.UserResponse;
-import com.gregory.api.users.rest.dto.response.UsersResponse;
-import com.gregory.api.users.services.query.IUserServiceQuery;
+import com.gregory.api.users.services.IUserService;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +29,7 @@ class UserControllerQueryImplTest {
     int port;
 
     @MockitoBean
-    IUserServiceQuery userServiceQuery;
+    IUserService userServiceQuery;
 
     UsersResponse usersResponseList;
     UserResponse userResponse;

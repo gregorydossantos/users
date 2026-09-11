@@ -39,15 +39,15 @@ services:
     volumes:
       - sonarqube_postgres:/var/lib/postgresql
 
-  redis:
-    image: redis
-    container_name: api-users-cache-db
-    ports:
-      - "6379:6379"
-    volumes:
-      - cache:/data
-    networks:
-      - api-users-network
+#  redis:
+#    image: redis
+#    container_name: api-users-cache-db
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - cache:/data
+#    networks:
+#      - api-users-network
 
 networks:
   api-users-network:

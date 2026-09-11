@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
+		<version>4.1.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gregory</groupId>
-	<artifactId>api-users</artifactId>
-	<version>1</version>
-	<name>api-users</name>
+	<artifactId>api-userEntity</artifactId>
+	<version>v1.0.0</version>
+	<name>api-userEntity</name>
 	<description>API Users</description>
 
 	<properties>
@@ -206,7 +206,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.80</minimum>
+											<minimum>0.90</minimum>
 										</limit>
 									</limits>
 								</rule>

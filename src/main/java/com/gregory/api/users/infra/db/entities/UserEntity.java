@@ -20,9 +20,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-@Table(name = "user_tb")
+@Table(name = "users_tb")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Users {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

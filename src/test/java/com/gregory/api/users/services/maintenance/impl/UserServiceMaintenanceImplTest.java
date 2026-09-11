@@ -2,7 +2,6 @@ package com.gregory.api.users.services.maintenance.impl;
 
 import com.gregory.api.users.domain.usecase.maintenance.IUserUseCaseMaintenance;
 import com.gregory.api.users.rest.dto.request.UserRequest;
-import com.gregory.api.users.rest.dto.response.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

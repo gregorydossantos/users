@@ -1,7 +1,6 @@
 package com.gregory.api.users.rest.maintenance.impl;
 
 import com.gregory.api.users.rest.dto.request.UserRequest;
-import com.gregory.api.users.rest.dto.response.UserResponse;
 import com.gregory.api.users.services.maintenance.IUserServiceMaintenance;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

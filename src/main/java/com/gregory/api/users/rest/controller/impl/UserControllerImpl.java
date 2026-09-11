@@ -1,9 +1,11 @@
-package com.gregory.api.users.rest.maintenance.impl;
+package com.gregory.api.users.rest.controller.impl;
 
+import com.gregory.api.users.rest.controller.IUserController;
 import com.gregory.api.users.rest.dto.request.UserRequest;
+import com.gregory.api.users.rest.dto.request.UserUpdateRequest;
+import com.gregory.api.users.rest.dto.response.UserDataResponse;
 import com.gregory.api.users.rest.dto.response.UserResponse;
-import com.gregory.api.users.rest.maintenance.IUserControllerMaintenance;
-import com.gregory.api.users.services.maintenance.IUserServiceMaintenance;
+import com.gregory.api.users.services.IUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,6 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+import java.util.UUID;
+
 import static com.gregory.api.users.rest.path.Routes.PATH_USERS;
 
 @RestController
@@ -23,9 +28,24 @@ import static com.gregory.api.users.rest.path.Routes.PATH_USERS;
 @Tag(name = "User Controller")
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 @RequestMapping(value = PATH_USERS, produces = {"application/json"})
-public class UserControllerMaintenanceImpl implements IUserControllerMaintenance {
+public class UserControllerImpl implements IUserController {
 
-    IUserServiceMaintenance userServiceMaintenance;
+    IUserService userService;
+
+    @Operation(summary = "Get a list (or passing the param user_id return one User) of Users", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Return a list of users or one user by user_id param"),
+            @ApiResponse(responseCode = "404", description = "Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal error")
+    })
+    @Override
+    public ResponseEntity<UserDataResponse> getUsers(String userId, int page, int size) {
+        if (Objects.nonNull(userId)) {
+            return ResponseEntity.ok().body(userService.findByUserId(userId));
+        }
+        var response = userService.getUsers(page, size);
+        return ResponseEntity.ok().body(response);
+    }
 
     @Operation(summary = "Create a user", method = "POST")
     @ApiResponses(value = {
@@ -36,7 +56,7 @@ public class UserControllerMaintenanceImpl implements IUserControllerMaintenance
     })
     @Override
     public ResponseEntity<Void> createUser(UserRequest request) {
-        userServiceMaintenance.createUser(request);
+        userService.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -48,8 +68,8 @@ public class UserControllerMaintenanceImpl implements IUserControllerMaintenance
             @ApiResponse(responseCode = "500", description = "Internal error")
     })
     @Override
-    public ResponseEntity<UserResponse> updateUser(String userId, UserRequest request) {
-        var response = userServiceMaintenance.updateUser(userId, request);
+    public ResponseEntity<UserResponse> updateUser(UUID id, UserUpdateRequest request) {
+        var response = userService.updateUser(id, request);
         return ResponseEntity.ok().body(response);
     }
 
@@ -61,8 +81,8 @@ public class UserControllerMaintenanceImpl implements IUserControllerMaintenance
             @ApiResponse(responseCode = "500", description = "Internal error")
     })
     @Override
-    public ResponseEntity<Void> deleteUser(String userId) {
-        userServiceMaintenance.deleteUser(userId);
+    public ResponseEntity<Void> deleteUser(UUID id) {
+        userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
