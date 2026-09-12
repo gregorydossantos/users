@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.MethodParameter;
@@ -25,6 +24,7 @@ import static com.gregory.api.users.domain.message.CommonsMessage.USER_ALREADY_R
 import static com.gregory.api.users.domain.message.CommonsMessage.USER_NOT_FOUND;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.mock;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -39,8 +39,8 @@ class UserExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("Should be return UserDataIntegrityException")
-    void should_ReturnsUserDataIntegrityException_When_UserAlreadyExists() {
+    @DisplayName("EXCEPTION HANDLER ::: Should be return UserDataIntegrityException")
+    void userDataIntegrityException() {
         ResponseEntity<ErrorResponse> response = userExceptionHandler.userDataIntegrityException(
                 new UserDataIntegrityException(USER_ALREADY_REGISTER));
 
@@ -49,8 +49,8 @@ class UserExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("Should be return UserNotFoundException")
-    void should_ReturnsUserNotFoundException_When_UserNotFound() {
+    @DisplayName("EXCEPTION HANDLER ::: Should be return UserNotFoundException")
+    void userNotFoundException() {
         ResponseEntity<ErrorResponse> response = userExceptionHandler.userNotFoundException(
                 new UserNotFoundException(USER_NOT_FOUND));
 
@@ -59,8 +59,8 @@ class UserExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("Should be return UserNotFoundException")
-    void should_ReturnsUserBadRequestException_When_UserBadRequest() {
+    @DisplayName("EXCEPTION HANDLER ::: Should be return UserBadRequestException")
+    void userBadRequestException() {
         ResponseEntity<ErrorResponse> response = userExceptionHandler.userBadRequestException(
                 new UserBadRequestException(BAD_REQUEST));
 
@@ -69,10 +69,10 @@ class UserExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("Should be return MethodArgumentNotValidException")
-    void should_ReturnsMethodArgumentNotValidException_When_requestMissingOut() {
-        var parameter = Mockito.mock(MethodParameter.class);
-        var bindingResult = Mockito.mock(BindingResult.class);
+    @DisplayName("EXCEPTION HANDLER ::: Should be return MethodArgumentNotValidException")
+    void handleValidationRequestBody() {
+        var parameter = mock(MethodParameter.class);
+        var bindingResult = mock(BindingResult.class);
         MethodArgumentNotValidException exception = new MethodArgumentNotValidException(parameter, bindingResult);
         ResponseEntity<ErrorResponse> response = userExceptionHandler.handleValidationRequestBody(exception);
         assertNotNull(response);
@@ -80,17 +80,17 @@ class UserExceptionHandlerTest {
     }
 
     @Test
-    @DisplayName("Should be return MissingServletRequestParameterException")
-    void should_ReturnsMissingServletRequestParameterException_When_AbsentParameterRequest() {
-        var mock = Mockito.mock(MissingServletRequestParameterException.class);
+    @DisplayName("EXCEPTION HANDLER ::: Should be return MissingServletRequestParameterException")
+    void handleAbsentParameter() {
+        var mock = mock(MissingServletRequestParameterException.class);
         ResponseEntity<ErrorResponse> response = userExceptionHandler.handleAbsentParameter(mock);
         assertNotNull(response);
     }
 
     @Test
-    @DisplayName("Should be return SQLException")
-    void should_ReturnsSQLException_When_UpdateUserWithEqualsEmailAlreadySaved() {
-        var mock = Mockito.mock(SQLException.class);
+    @DisplayName("EXCEPTION HANDLER ::: Should be return SQLException")
+    void handlerSqlException() {
+        var mock = mock(SQLException.class);
         ResponseEntity<ErrorResponse> response = userExceptionHandler.handlerSqlException(mock);
         assertNotNull(response);
     }

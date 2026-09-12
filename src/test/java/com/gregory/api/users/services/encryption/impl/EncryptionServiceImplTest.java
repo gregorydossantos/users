@@ -24,7 +24,7 @@ class EncryptionServiceImplTest {
 
     @Test
     @DisplayName("SERVICE LAYER ::: Encrypt password field from user with successfully")
-    void should_Encrypt_Password_When_Call_EncryptionService() {
+    void encrypt() {
         when(encryptor.encrypt(anyString())).thenReturn(anyString());
 
         var response = encryptionService.encrypt("test");
@@ -33,7 +33,7 @@ class EncryptionServiceImplTest {
 
     @Test
     @DisplayName("SERVICE LAYER ::: Decrypt password field from user with successfully")
-    void should_Decrypt_Password_When_Call_EncryptionService() {
+    void decrypt() {
         when(encryptor.decrypt(anyString())).thenReturn(anyString());
 
         var response = encryptionService.decrypt("test");

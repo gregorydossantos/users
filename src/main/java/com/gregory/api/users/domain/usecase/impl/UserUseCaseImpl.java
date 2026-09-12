@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import static com.gregory.api.users.domain.message.CommonsMessage.EMAIL_ALREADY_REGISTER;
 import static com.gregory.api.users.domain.message.CommonsMessage.USER_NOT_FOUND;
+import static com.gregory.api.users.useful.StringUseful.nonNullOrEmpty;
 
 @Slf4j
 @Service
@@ -61,10 +62,10 @@ public class UserUseCaseImpl implements IUserUseCase {
         log.info("Decrypting user password");
         decryptingAllPasswords(List.of(user.get()));
 
-        var response = userMapper.toListUserResponse(List.of(user.get()));
+        var response = userMapper.toListResponse(List.of(user.get()));
 
         log.info("Return User: {}", response.getFirst());
-        return UsersResponse.builder().data(response).build();
+        return UserDataResponse.builder().users(response).build();
     }
 
     @Override
@@ -79,7 +80,7 @@ public class UserUseCaseImpl implements IUserUseCase {
         encryptPassword(request);
 
         log.info("Convert request in entity");
-        var user = mapper.toEntity(request);
+        var user = userMapper.toEntity(request);
 
         log.info("Persist entity at database: {}", user);
         userRepository.save(user);
@@ -102,11 +103,11 @@ public class UserUseCaseImpl implements IUserUseCase {
         }
 
         log.info("Update old user");
-        var userUpdate = mapper.toUpdate(oldUser.get(), request);
+        var userUpdate = userMapper.toUpdate(oldUser.get(), request);
         log.info("Saving updated user: {}", userUpdate);
         userRepository.save(userUpdate);
 
-        return mapper.toResponse(userUpdate);
+        return userMapper.toResponse(userUpdate);
     }
 
     @Override
