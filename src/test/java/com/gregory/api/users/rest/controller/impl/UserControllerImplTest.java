@@ -78,7 +78,7 @@ class UserControllerImplTest {
     }
 
     @Test
-    @DisplayName("REST LAYER ::: Should be return a http status 201 - CREATED")
+    @DisplayName("CONTROLLER LAYER ::: Should be return a http status 201 - CREATED")
     void createUser() {
         var request = UserRequest.builder()
                 .name("Test")
@@ -98,7 +98,7 @@ class UserControllerImplTest {
     }
 
     @Test
-    @DisplayName("REST LAYER ::: Should be return a http status 200 - SUCCESS")
+    @DisplayName("CONTROLLER LAYER ::: Should be return a http status 200 - SUCCESS")
     void updateUser() {
         var request = mock(UserUpdateRequest.class);
         var response = mock(UserResponse.class);
@@ -114,7 +114,7 @@ class UserControllerImplTest {
     }
 
     @Test
-    @DisplayName("REST LAYER ::: Should be return a http status 200 - SUCCESS")
+    @DisplayName("CONTROLLER LAYER ::: Should be return a http status 200 - SUCCESS")
     void deleteUser() {
         doNothing().when(userServiceMock).deleteUser(idMock);
 

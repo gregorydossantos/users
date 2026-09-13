@@ -41,8 +41,12 @@ public class UserUseCaseImpl implements IUserUseCase {
         log.info("Get all user from database");
         var users = userRepository.findAll(setPageable(page, size));
 
-        log.info("Decrypting password field from all users");
-        decryptingAllPasswords(users.getContent());
+        if (users.isEmpty()) {
+            throw new UserNotFoundException(USER_NOT_FOUND);
+        }
+
+//        log.info("Decrypting password field from all users");
+//        decryptingAllPasswords(users.getContent());
 
         log.info("Return all Users");
         return UserDataResponse.builder()
@@ -59,8 +63,8 @@ public class UserUseCaseImpl implements IUserUseCase {
             throw new UserNotFoundException(USER_NOT_FOUND);
         }
 
-        log.info("Decrypting user password");
-        decryptingAllPasswords(List.of(user.get()));
+//        log.info("Decrypting user password");
+//        decryptingAllPasswords(List.of(user.get()));
 
         var response = userMapper.toListResponse(List.of(user.get()));
 
@@ -138,11 +142,11 @@ public class UserUseCaseImpl implements IUserUseCase {
         request.setPassword(encryptionService.encrypt(request.getPassword()));
     }
 
-    private void decryptingAllPasswords(List<UserEntity> users) {
-        for (UserEntity user : users) {
-            log.debug("Encrypt password: {}", user.getPassword());
-            user.setPassword(encryptionService.decrypt(user.getPassword()));
-            log.debug("Decrypt password: {}", user.getPassword());
-        }
-    }
+//    private void decryptingAllPasswords(List<UserEntity> users) {
+//        for (UserEntity user : users) {
+//            log.debug("Encrypt password: {}", user.getPassword());
+//            user.setPassword(encryptionService.decrypt(user.getPassword()));
+//            log.debug("Decrypt password: {}", user.getPassword());
+//        }
+//    }
 }

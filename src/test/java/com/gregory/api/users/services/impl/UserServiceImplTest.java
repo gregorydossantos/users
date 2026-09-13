@@ -7,21 +7,25 @@ import com.gregory.api.users.rest.dto.response.UserDataResponse;
 import com.gregory.api.users.rest.dto.response.UserResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
     @Mock
@@ -42,6 +46,10 @@ class UserServiceImplTest {
     @Test
     @DisplayName("SERVICE LAYER ::: Get one user by user_id")
     void getOneUser() {
+        when(userUserCaseMock.findByUserId(anyString())).thenReturn(Mockito.mock(UserDataResponse.class));
+
+        var response = userService.findByUserId(anyString());
+        assertNotNull(response);
     }
 
     @Test

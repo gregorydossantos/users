@@ -11,9 +11,11 @@ import com.gregory.api.users.services.encryption.IEncryptionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,12 +31,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 class UserUseCaseImplTest {
 
     @Mock
@@ -103,6 +107,11 @@ class UserUseCaseImplTest {
     @Test
     @DisplayName("USE CASE LAYER ::: Get one user successfully")
     void findByUserId() {
+        when(userRepositoryMock.findByUserId(anyString())).thenReturn(Optional.of(userMock));
+        when(mapperMock.toListResponse(anyList())).thenReturn(List.of(Mockito.mock(UserResponse.class)));
+
+        var response = userUseCaseImpl.findByUserId(anyString());
+        assertNotNull(response);
     }
 
     @Test
@@ -137,10 +146,17 @@ class UserUseCaseImplTest {
 
     @Test
     @DisplayName("USE CASE LAYER ::: Not found any user")
-    void should_ReturnsUserNotFoundException_When_UsersNotExists() {
+    void throwsUserNotFoundExceptionAtGetUsers() {
         Page<UserEntity> mockPage = new PageImpl<>(Collections.emptyList());
 
         when(userRepositoryMock.findAll(any(Pageable.class))).thenReturn(mockPage);
         assertThrows(UserNotFoundException.class, () -> userUseCaseImpl.getUsers(0, 10));
+    }
+
+    @Test
+    @DisplayName("USE CASE LAYER ::: Not found any user by USER_ID")
+    void throwsUserNotFoundExceptionAtFindByUserId() {
+        when(userRepositoryMock.findByUserId(anyString())).thenReturn(Optional.empty());
+        assertThrows(UserNotFoundException.class, () -> userUseCaseImpl.findByUserId(anyString()));
     }
 }
