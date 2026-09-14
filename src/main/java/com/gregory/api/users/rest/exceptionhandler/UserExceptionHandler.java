@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class UserExceptionHandler {
@@ -35,15 +37,16 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationRequestBody(final MethodArgumentNotValidException ex) {
-        ErrorResponse errorResponse = new ErrorResponse();
+    public ResponseEntity<Map<String, String>> handleValidationRequestBody(final MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            errorResponse.setField(((FieldError) error).getField());
-            errorResponse.setMessage(error.getDefaultMessage());
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
         });
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(errors);
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
