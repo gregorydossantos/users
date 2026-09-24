@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
+		<version>4.1.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.gregory</groupId>
 	<artifactId>api-users</artifactId>
-	<version>1</version>
-	<name>api-users</name>
+	<version>v1.0.0</version>
+	<name>api-userEntity</name>
 	<description>API Users</description>
 
 	<properties>
@@ -23,7 +23,7 @@
 		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
 		<jacoco.version>0.8.11</jacoco.version>
-		<rest-assured.version>5.4.0</rest-assured.version>
+		<rest-assured.version>6.0.1</rest-assured.version>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
@@ -169,13 +169,16 @@
 						<exclude>**/UsersApplication.class</exclude>
 						<exclude>**/config/**</exclude>
 						<exclude>**/domain/message/**</exclude>
+						<exclude>**/domain/mapper/**</exclude>
 						<exclude>**/infra/db/entities/**</exclude>
 						<exclude>**/infra/db/repositories/**</exclude>
 						<exclude>**/rest/dto/request/**</exclude>
 						<exclude>**/rest/dto/response/**</exclude>
 						<exclude>**/rest/exceptionhandler/exception/**</exclude>
 						<exclude>**/rest/exceptionhandler/ErrorResponse.class</exclude>
+						<exclude>**/rest/constants/**</exclude>
 						<exclude>**/rest/path/**</exclude>
+						<exclude>**/useful/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -206,7 +209,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.80</minimum>
+											<minimum>0.90</minimum>
 										</limit>
 									</limits>
 								</rule>
