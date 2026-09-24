@@ -176,6 +176,7 @@
 						<exclude>**/rest/dto/response/**</exclude>
 						<exclude>**/rest/exceptionhandler/exception/**</exclude>
 						<exclude>**/rest/exceptionhandler/ErrorResponse.class</exclude>
+						<exclude>**/rest/constants/**</exclude>
 						<exclude>**/rest/path/**</exclude>
 						<exclude>**/useful/**</exclude>
 					</excludes>
